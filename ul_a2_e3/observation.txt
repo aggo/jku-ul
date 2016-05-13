@@ -1,0 +1,4 @@
+Mean is 10.597 and lambda for which max is attained is 10.6.
+
+What is noticed is that the determined estimator on paper, the mean of the sample, is very close to the value for which
+the distribution seems to have generated the data.

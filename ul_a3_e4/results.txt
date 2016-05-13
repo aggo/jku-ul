@@ -1,0 +1,18 @@
+First component for dataset1:
+[-0.73311762 -0.17890666  0.65614858]
+Percent of data explained by the first component for ds1:
+0.345002280658
+
+First component for dataset2:
+[ 0.67354117  0.73914971]
+Percent of data explained by the first component for ds2:
+0.775567775989
+
+It is clear that more variance is explained in case of the second dataset.
+
+One can notice from the visualization that the points are spread relatively uniformly
+(somehow making a cube) in the case of data set 1.
+
+In the plot of the second dataset one can distinguish a diagonal direction on which if
+the data was projected, it would separate two of the "clusters" one can easily identify
+in the initial plot (see fig. 3)

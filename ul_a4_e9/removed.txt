@@ -1,0 +1,1 @@
+the archive and the file cifar.npy

@@ -1,0 +1,1 @@
+jupyter nbconvert ex7.ipynb --to pdf --template clean_report

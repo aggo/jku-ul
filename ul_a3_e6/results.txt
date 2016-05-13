@@ -1,0 +1,16 @@
+How:
+1) We fit a PCA to the data without giving a number of components to be kept in order to
+   obtain for each component the amount of variance it accounts for.
+2) For each of the "Experiments" (i.e. desired percentages of variance to be kept), we compute
+   how many principal components we need to account for that amount of variance.
+   2.1) We fit another PCA with this number of components and then we transform the initial data
+        using these principal components. Ex: for 50% variance preserved, we only need 4 PCs (fig. C0_P0.5 tp C3_P0.5)
+   2.2) To decompress the data again, we make a linear combination of the computed principal
+        components and the transformed data. (see fig. 2 for an example of a 50%-preserved-variance
+        image and how it was obtained. The a-b-c-d values are just numbers)
+
+The type of information that is preserved is the main characteristics of the face and the bigger traits that
+"distinguishe" one particular face from the others (for example, the locations where hair is present, how big are the
+eyebrows/nose, etc.)
+
+What is lost is detail - the images become increasingly "blurry". (see fig. 1)

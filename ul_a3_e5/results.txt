@@ -1,0 +1,11 @@
+As one can notice in figure_1.png, the following sites can be roughly separated using
+1) only the first component:
+   - cp (red) - but it overlaps a bit with pp (cyan)
+    (see figure 2 - the black line "delimits" the group)
+
+2) only the second component:
+   - pp (cyan) - but it still overlaps with a few; however, delimited from red and yellow
+    (see figure 3)
+
+3) the first and the second component
+   - cp (red), pp (cyan), im (yellow)
