@@ -1,0 +1,4 @@
+
+The original loading matrix cannot be recovered perfectly, though the algorithm does a good job overall
+(compare initial-matrix.png with result-matrix.png).
+
