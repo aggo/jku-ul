@@ -59,28 +59,29 @@ def plot_in_2d(points, centroids, title):
     plt.show()
 
 
-def plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids):
-    import matplotlib.pyplot as plt
+def plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, imageOrder):
+
     for centroid in centroids_to_assigned_points_map.iterkeys():
         points = centroids_to_assigned_points_map[centroid]
         plt.plot([i[0] for i in points], [i[1] for i in points],'.')
-        plt.scatter(centroids[centroid][0], centroids[centroid][1],marker='x', s=169, linewidths=3,
-            color='r', zorder=10)
+        plt.scatter(centroids[centroid][0], centroids[centroid][1],marker='o', s=169, linewidths=3,
+            color='white', zorder=10, edgecolors="black")
 
     plt.ylim([-3, 3])
     plt.xlim([-3, 3])
-    plt.xlabel("X1 coordinate")
-    plt.ylabel("X2 coordinate")
-    plt.title("Clusters")
-    plt.show()
 
-def kmeans(nr_clusters):
+    plot_matrix_size = np.math.ceil(np.math.sqrt(MAX_ITERATIONS))
+    plt.subplot(plot_matrix_size, plot_matrix_size, imageOrder)
+
+
+def kmeans(nr_clusters, max_iterations):
     # pick nr_clusters centroids at random - between 0 and 1 since we normalized the data
     centroids = build_centroids_map(nr_clusters)
     update_map_for_centroids = build_update_map_for_centroids(nr_clusters)
     centroids_to_assigned_points_map = build_centroids_to_assigned_points_map(nr_clusters)
+    nr_runs = 1
 
-    while(True):
+    while(nr_runs<=max_iterations):
         for point in x_normalized:
             min_dist = 1000000;
             chosen_centroid = None
@@ -108,11 +109,14 @@ def kmeans(nr_clusters):
             update_map_for_centroids[centroid[0]] = [0,0,0] # reinitialize the map for the next round of point distance comp
 
         #plot_in_2d(x_normalized, [i for i in centroids.itervalues()], "Points and centroids")
-        plot = plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids)
+        plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, nr_runs)
+        nr_runs+=1
+    plt.show()
 
-
+import matplotlib.pyplot as plt
+MAX_ITERATIONS = 20
 data = read_file("kmeansdata.csv")
 x = data[:,:-1]
 x_normalized = scale(x)
 y = data[:,-1]
-kmeans(nr_clusters=2)
+kmeans(nr_clusters=2, max_iterations=20)
