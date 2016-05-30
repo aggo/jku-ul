@@ -58,6 +58,22 @@ def plot_in_2d(points, centroids, title):
     plt.title(title)
     plt.show()
 
+
+def plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids):
+    import matplotlib.pyplot as plt
+    for centroid in centroids_to_assigned_points_map.iterkeys():
+        points = centroids_to_assigned_points_map[centroid]
+        plt.plot([i[0] for i in points], [i[1] for i in points],'.')
+        plt.scatter(centroids[centroid][0], centroids[centroid][1],marker='x', s=169, linewidths=3,
+            color='r', zorder=10)
+
+    plt.ylim([-3, 3])
+    plt.xlim([-3, 3])
+    plt.xlabel("X1 coordinate")
+    plt.ylabel("X2 coordinate")
+    plt.title("Clusters")
+    plt.show()
+
 def kmeans(nr_clusters):
     # pick nr_clusters centroids at random - between 0 and 1 since we normalized the data
     centroids = build_centroids_map(nr_clusters)
@@ -91,10 +107,12 @@ def kmeans(nr_clusters):
 
             update_map_for_centroids[centroid[0]] = [0,0,0] # reinitialize the map for the next round of point distance comp
 
-        plot_in_2d(x_normalized, [i for i in centroids.itervalues()], "Points and centroids")
+        #plot_in_2d(x_normalized, [i for i in centroids.itervalues()], "Points and centroids")
+        plot = plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids)
+
 
 data = read_file("kmeansdata.csv")
 x = data[:,:-1]
 x_normalized = scale(x)
 y = data[:,-1]
-kmeans(nr_clusters=3)
+kmeans(nr_clusters=2)
