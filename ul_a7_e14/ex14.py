@@ -4,6 +4,7 @@
 # Exercise 14
 
 import numpy as np
+from matplotlib import animation
 from sklearn.preprocessing import scale
 
 
@@ -15,6 +16,16 @@ def read_file(filename):
         csvdata = csvdata[1:]
     return csvdata
 
+
+def computeDistance(chosen_centroid, point):
+    xc = chosen_centroid[0]
+    yc = chosen_centroid[1]
+
+    xp = point[0]
+    yp = point[1]
+
+    dist = np.sqrt((xc - xp) ** 2 + (yc - yp) ** 2)
+    return dist
 
 def computeDistance(chosen_centroid, point):
     xc = chosen_centroid[0]
@@ -47,31 +58,31 @@ def build_centroids_to_assigned_points_map(nr_clusters):
         # the new coordinates will be be computed by dividing the sums to the number
     return centroids_to_assigned_points_map
 
-def plot_in_2d(points, centroids, title):
-    import matplotlib.pyplot as plt
-    fig = plt.figure()
-    plt.plot(points[:,0], points[:,1], 'b.', [i[0] for i in centroids], [i[1] for i in centroids], 'ro')
-    plt.ylim([-3,3])
-    plt.xlim([-3,3])
-    plt.xlabel("X1 coordinate")
-    plt.ylabel("X2 coordinate")
-    plt.title(title)
-    plt.show()
+# def plot_in_2d(points, centroids, title):
+#
+#     import matplotlib.pyplot as plt
+#     fig = plt.figure()
+#     plt.plot(points[:,0], points[:,1], 'b.', [i[0] for i in centroids], [i[1] for i in centroids], 'ro')
+#     plt.ylim([-3,3])
+#     plt.xlim([-3,3])
+#     plt.xlabel("X1 coordinate")
+#     plt.ylabel("X2 coordinate")
+#     plt.title(title)
+#     plt.show()
 
 
 def plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, imageOrder):
-
+    ax1.clear()
     for centroid in centroids_to_assigned_points_map.iterkeys():
         points = centroids_to_assigned_points_map[centroid]
-        plt.plot([i[0] for i in points], [i[1] for i in points],'.')
-        plt.scatter(centroids[centroid][0], centroids[centroid][1],marker='o', s=169, linewidths=3,
+        ax1.scatter([i[0] for i in points], [i[1] for i in points],  marker = 'o', color = colors(centroid*100),)
+        ax1.scatter(centroids[centroid][0], centroids[centroid][1], marker='o', s=81, linewidths=2,
             color='white', zorder=10, edgecolors="black")
+    plt.draw()
+    plt.pause(0.05)
 
-    plt.ylim([-3, 3])
-    plt.xlim([-3, 3])
+    # plt.draw()
 
-    plot_matrix_size = np.math.ceil(np.math.sqrt(MAX_ITERATIONS))
-    plt.subplot(plot_matrix_size, plot_matrix_size, imageOrder)
 
 
 def kmeans(nr_clusters, max_iterations):
@@ -81,7 +92,9 @@ def kmeans(nr_clusters, max_iterations):
     centroids_to_assigned_points_map = build_centroids_to_assigned_points_map(nr_clusters)
     nr_runs = 1
 
+
     while(nr_runs<=max_iterations):
+        centroids_to_assigned_points_map = build_centroids_to_assigned_points_map(nr_clusters)
         for point in x_normalized:
             min_dist = 1000000;
             chosen_centroid = None
@@ -108,15 +121,21 @@ def kmeans(nr_clusters, max_iterations):
 
             update_map_for_centroids[centroid[0]] = [0,0,0] # reinitialize the map for the next round of point distance comp
 
-        #plot_in_2d(x_normalized, [i for i in centroids.itervalues()], "Points and centroids")
         plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, nr_runs)
         nr_runs+=1
-    plt.show()
 
 import matplotlib.pyplot as plt
+fig = plt.figure()
+ax1 = fig.add_subplot(1,1,1)
+colors = plt.get_cmap("rainbow")
+plt.ylim([-3, 3])
+plt.xlim([-3, 3])
+
 MAX_ITERATIONS = 20
 data = read_file("kmeansdata.csv")
 x = data[:,:-1]
 x_normalized = scale(x)
 y = data[:,-1]
-kmeans(nr_clusters=2, max_iterations=20)
+kmeans(nr_clusters=2, max_iterations=10)
+plt.waitforbuttonpress()
+
