@@ -85,15 +85,13 @@ def plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, imageOr
 
 
 
-def kmeans(nr_clusters, max_iterations):
+def kmeans(nr_clusters, plot_after_each_run=True):
     # pick nr_clusters centroids at random - between 0 and 1 since we normalized the data
     centroids = build_centroids_map(nr_clusters)
-    update_map_for_centroids = build_update_map_for_centroids(nr_clusters)
-    centroids_to_assigned_points_map = build_centroids_to_assigned_points_map(nr_clusters)
     nr_runs = 1
 
-
-    while(nr_runs<=max_iterations):
+    while(nr_runs<=MAX_ITERATIONS):
+        update_map_for_centroids = build_update_map_for_centroids(nr_clusters)
         centroids_to_assigned_points_map = build_centroids_to_assigned_points_map(nr_clusters)
         for point in x_normalized:
             min_dist = 1000000;
@@ -120,9 +118,10 @@ def kmeans(nr_clusters, max_iterations):
                 centroid[1][1] = 0
 
             update_map_for_centroids[centroid[0]] = [0,0,0] # reinitialize the map for the next round of point distance comp
-
-        plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, nr_runs)
+        if plot_after_each_run:
+            plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, nr_runs)
         nr_runs+=1
+    plot_in_2d_each_cluster(centroids_to_assigned_points_map, centroids, nr_runs)
 
 import matplotlib.pyplot as plt
 fig = plt.figure()
@@ -136,6 +135,7 @@ data = read_file("kmeansdata.csv")
 x = data[:,:-1]
 x_normalized = scale(x)
 y = data[:,-1]
-kmeans(nr_clusters=2, max_iterations=10)
+kmeans(nr_clusters=4, plot_after_each_run = False)
+
 plt.waitforbuttonpress()
 
