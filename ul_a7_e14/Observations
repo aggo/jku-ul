@@ -1,0 +1,8 @@
+* We do not get the same results even if we run the algorithm multiple times with the same number of clusters
+(see Experiments.jpg where we have a subplot for each number of clusters and each experiment). This is because
+of the random initialization of the cluster centroids, which results in different points being assigned to the
+clusters in each experiment.
+
+* We can notice that the algorithm fails to detect the real clusters. Since it uses the simple 2D distance
+between points, each cluster will have a "circle"-like shape, not managing to capture the eliptical shape
+of the real clusters. This is also due to the fact that k-means' clusters have the same shapes.
